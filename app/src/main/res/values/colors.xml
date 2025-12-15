@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="dark_bg">#121418</color>
+    <color name="dark_card">#1E2228</color>
+    <color name="dark_input">#15171B</color>
+    <color name="blue_primary">#1976D2</color>
+    <color name="text_gray">#B0B3B8</color>
 </resources>

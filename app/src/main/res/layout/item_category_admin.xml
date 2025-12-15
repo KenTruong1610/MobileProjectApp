@@ -4,26 +4,27 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:gravity="center_vertical"
-    android:padding="10dp"
-    android:layout_marginBottom="8dp"
-    android:background="#FFFFFF"
-    android:elevation="2dp">
+    android:padding="15dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_item_dark">
 
     <TextView
         android:id="@+id/tvCatName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Tên danh mục"
+        android:text="Tên Danh Mục"
+        android:textColor="@color/white"
         android:textSize="16sp"
-        android:textColor="#000000"/>
+        android:textStyle="bold"/>
 
     <ImageButton
         android:id="@+id/btnDeleteCat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@android:drawable/ic_menu_delete"
-        android:backgroundTint="#D32F2F"
-        android:padding="10dp"/>
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:tint="#EF5350"
+        android:contentDescription="Xóa danh mục"/>
 
 </LinearLayout>

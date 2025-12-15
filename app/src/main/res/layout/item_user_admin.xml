@@ -2,25 +2,65 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="15dp"
-    android:layout_margin="5dp"
-    android:background="#F0F0F0">
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/bg_item_dark">
 
-    <TextView
-        android:id="@+id/tvUserEmail"
-        android:text="email@example.com"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_input_dark">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:src="@android:drawable/ic_menu_my_calendar"
+            android:tint="#B0B3B8"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvUserEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email@example.com"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvUserUid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UID: abc...xyz"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:maxLines="1"/>
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvUserRole"
-        android:text="Role: user"
-        android:textColor="#555"
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="@drawable/bg_btn_blue"
+        android:textColor="@color/white"/>
 
 </LinearLayout>
