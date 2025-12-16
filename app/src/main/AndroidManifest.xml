@@ -30,7 +30,8 @@
         <activity android:name=".AdminCategoryActivity"/>
         <activity android:name=".AdminPostActivity"/>
         <activity android:name=".AdminUserActivity"/>
-
+        <activity android:name=".CreatePostActivity" />
+        <activity android:name=".PostDetailActivity" />
 
 
     </application>

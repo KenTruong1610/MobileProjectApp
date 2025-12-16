@@ -1,50 +1,60 @@
 package com.example.projectmobile.model;
 
-
-
+import java.io.Serializable;
 import java.util.Date;
 
-
-import java.util.Date;
-
-public class Post {
-    // 1. Khai báo biến
+public class Post implements Serializable {
     private String id;
     private String title;
     private String content;
-    private String authorId;
-    private String status;
+    private String imageUrl;
+    private String category;
+    private String userId;
+    private String userEmail;
+    private String status; // <-- ĐÃ BỔ SUNG BIẾN QUAN TRỌNG NÀY
     private Date timestamp;
 
-    // 2. Constructor rỗng (Bắt buộc cho Firebase)
-    public Post() {}
+    // 1. Constructor rỗng (Bắt buộc cho Firebase)
+    public Post() { }
 
-    // 3. Constructor đầy đủ
-    public Post(String id, String title, String content, String authorId, String status, Date timestamp) {
+    // 2. Constructor đầy đủ
+    public Post(String id, String title, String content, String imageUrl, String category, String userId, String userEmail, String status, Date timestamp) {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.authorId = authorId;
+        this.imageUrl = imageUrl;
+        this.category = category;
+        this.userId = userId;
+        this.userEmail = userEmail;
         this.status = status;
         this.timestamp = timestamp;
     }
 
-    // 4. Getters
-    public String getId() { return id; }
-    public String getTitle() { return title; }
-    public String getContent() { return content; }
-    public String getAuthorId() { return authorId; }
+    // 3. Getter & Setter (Đã thêm getStatus/setStatus)
     public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
+
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
+
+    public String getUserEmail() { return userEmail; }
+    public void setUserEmail(String userEmail) { this.userEmail = userEmail; }
+
     public Date getTimestamp() { return timestamp; }
-
-    // 5. SETTERS (Phần bạn đang thiếu hoặc đặt sai chỗ)
-    // Phải nằm TRƯỚC dấu đóng ngoặc nhọn cuối cùng
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-} // <--- Dấu đóng ngoặc của class Post phải ở đây (Cuối cùng)
+    public void setTimestamp(Date timestamp) { this.timestamp = timestamp; }
+}

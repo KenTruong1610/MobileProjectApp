@@ -43,10 +43,10 @@ public class AdminPostAdapter extends RecyclerView.Adapter<AdminPostAdapter.View
         Post post = postList.get(position);
         holder.title.setText(post.getTitle());
 
-        if (post.getStatus().equals("approved")) {
+        if ("approved".equals(post.getStatus())) {
             holder.status.setText("Đã duyệt");
             holder.status.setTextColor(Color.GREEN);
-            holder.btnApprove.setEnabled(false); // Đã duyệt thì không bấm nữa
+            holder.btnApprove.setEnabled(false);
             holder.btnApprove.setText("Đã duyệt");
         } else {
             holder.status.setText("Chờ duyệt");
