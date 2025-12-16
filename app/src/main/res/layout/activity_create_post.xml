@@ -60,11 +60,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Danh mục:"
-            android:textColor="@color/text_gray"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:layout_marginBottom="5dp"/>
 
         <Spinner
             android:id="@+id/spinnerCategories"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_input_dark"
@@ -80,14 +83,14 @@
         <EditText
             android:id="@+id/etPostContent"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:hint="Nội dung chi tiết..."
-            android:gravity="top|start"
-            android:textColorHint="@color/text_gray"
-            android:textColor="@color/white"
+            android:layout_height="441dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/bg_input_dark"
+            android:gravity="top|start"
+            android:hint="Nội dung chi tiết..."
             android:padding="12dp"
-            android:layout_marginBottom="20dp"/>
+            android:textColor="@color/white"
+            android:textColorHint="@color/text_gray" />
 
         <Button
             android:id="@+id/btnSubmitPost"
