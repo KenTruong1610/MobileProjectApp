@@ -87,6 +87,33 @@
 
 
         <LinearLayout
+            android:id="@+id/header_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="24News"
+                android:textColor="@color/blue_primary"
+                android:textSize="28sp"
+                android:textStyle="bold"/>
+
+            <ImageView
+                android:id="@+id/iconSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@android:drawable/ic_search_category_default"
+                android:tint="@color/blue_primary"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Tìm kiếm"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -111,6 +138,23 @@
                 android:textSize="12sp"
                 android:backgroundTint="#D32F2F"/>
         </LinearLayout>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:id="@+id/category_filter_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerUserPosts"

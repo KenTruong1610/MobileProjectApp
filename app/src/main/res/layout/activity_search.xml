@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:gravity="center_vertical"
+    android:background="@color/white"> <ImageButton
+    android:id="@+id/btnBack"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@android:drawable/ic_menu_close_clear_cancel"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:tint="@color/black" android:contentDescription="Quay lại"/>
+
+    <EditText
+        android:id="@+id/etSearchQuery"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:hint="Nhập từ khóa tìm kiếm..."
+        android:textColor="@color/black" android:textColorHint="@color/text_gray"
+        android:background="@drawable/bg_search_input" android:padding="10dp"
+        android:maxLines="1"
+        android:inputType="text"
+        android:imeOptions="actionSearch"/>
+
+    <ImageButton
+        android:id="@+id/btnDoSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Tìm kiếm"
+        android:src="@android:drawable/ic_search_category_default"
+        android:tint="@color/blue_primary" />
+
+</LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSearchResultCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/black"
+        android:text="Hãy nhập từ khóa để tìm kiếm..."
+        android:textSize="14sp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="16dp"/>
+
+</LinearLayout>
