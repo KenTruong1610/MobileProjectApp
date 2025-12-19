@@ -1,10 +1,7 @@
 package com.example.projectmobile;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,9 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.projectmobile.model.Category; // IMPORT MỚI
+import com.example.projectmobile.model.Category;
 import com.example.projectmobile.model.Post;
 import com.example.projectmobile.model.WeatherResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -37,29 +35,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserActivity extends AppCompatActivity {
 
     // Khai báo biến
-    RecyclerView recyclerPosts;
-    UserPostAdapter postAdapter;
-    List<Post> postList;
+    private RecyclerView recyclerPosts;
+    private UserPostAdapter postAdapter;
+    private List<Post> postList;
 
-    TextView tvCity, tvTemp, tvDesc, tvMsg;
-    ImageView imgIcon;
-    Button btnLogout;
+    private TextView tvCity, tvTemp, tvDesc, tvMsg;
+    private ImageView imgIcon;
 
-    // KHAI BÁO BIẾN MỚI
-    ImageView iconSearch;
-    LinearLayout categoryFilterContainer;
+    private LinearLayout categoryFilterContainer;
+    private List<Category> categoryList;
+    private TextView selectedCategoryView;
 
-    List<Category> categoryList; // LIST CATEGORY MỚI
-    private TextView selectedCategoryView; // VIEW HIỆN TẠI ĐANG ĐƯỢC CHỌN
-
-    // Biến trạng thái hiện tại
     private String currentCategory = "Tất cả";
     private String currentSearchQuery = "";
 
-    // Cấu hình API Thời tiết
-    final String BASE_URL = "https://api.openweathermap.org/";
-    final String API_KEY = "89d418e26e99bc878719355d91cf78b0";
-    final String CITY = "Ho Chi Minh";
+    private final String BASE_URL = "https://api.openweathermap.org/";
+    private final String API_KEY = "89d418e26e99bc878719355d91cf78b0";
+    private final String CITY = "Ho Chi Minh";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +64,12 @@ public class UserActivity extends AppCompatActivity {
         tvDesc = findViewById(R.id.tvWeatherDesc);
         imgIcon = findViewById(R.id.imgWeatherIcon);
         tvMsg = findViewById(R.id.tvUserMsg);
-        btnLogout = findViewById(R.id.btnLogoutUser);
-
-        // ÁNH XẠ CÁC VIEW MỚI
-        iconSearch = findViewById(R.id.iconSearch);
         categoryFilterContainer = findViewById(R.id.category_filter_container);
 
         // Cấu hình RecyclerView
         recyclerPosts = findViewById(R.id.recyclerUserPosts);
         recyclerPosts.setLayoutManager(new LinearLayoutManager(this));
-
         postList = new ArrayList<>();
-        categoryList = new ArrayList<>(); // KHỞI TẠO LIST CATEGORY
-
         postAdapter = new UserPostAdapter(postList, this);
         recyclerPosts.setAdapter(postAdapter);
 
@@ -95,42 +80,55 @@ public class UserActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Nút đăng xuất
-        btnLogout.setOnClickListener(v -> {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
-        });
+        // Thiết lập Bottom Navigation
+        setupBottomNavigation();
 
-        // Gọi hàm cấu hình tính năng mới
-        loadCategories(); // TẢI DANH MỤC ĐỘNG VÀ TẠO UI LỌC
-        setupSearch();
+        // Tải danh mục và bài viết
+        categoryList = new ArrayList<>();
+        loadCategories();
 
-        // Gọi các hàm tải dữ liệu
+        // Tải dữ liệu thời tiết
         getWeatherData();
     }
 
-    // Nên gọi load bài viết ở onResume để khi đăng bài xong quay lại nó tự cập nhật
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_profile) {
+                startActivity(new Intent(UserActivity.this, ProfileActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_history) {
+                startActivity(new Intent(UserActivity.this, HistoryActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_search) {
+                startActivity(new Intent(UserActivity.this, SearchActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_home) {
+                return true; // Đã ở trang chủ
+            }
+            return false;
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        // Chỉ tải bài viết nếu đã có danh mục (tránh lỗi categoryList rỗng)
         if (!categoryList.isEmpty()) {
             loadApprovedPosts(currentCategory, currentSearchQuery);
         }
+        // Đảm bảo mục Home được chọn khi quay lại
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
     }
 
-    // --- HÀM 0: TẢI DANH MỤC TỪ FIREBASE (MỚI) ---
     private void loadCategories() {
         FirebaseFirestore.getInstance().collection("categories")
                 .get()
                 .addOnSuccessListener(snapshots -> {
                     categoryList.clear();
-
-                    // Thêm danh mục "Tất cả" cố định đầu tiên
-                    Category allCat = new Category("all", "Tất cả");
-                    categoryList.add(allCat);
-
+                    categoryList.add(new Category("all", "Tất cả"));
                     if (!snapshots.isEmpty()) {
                         for (DocumentSnapshot doc : snapshots) {
                             Category category = doc.toObject(Category.class);
@@ -139,17 +137,11 @@ public class UserActivity extends AppCompatActivity {
                             }
                         }
                     }
-
-                    // Sau khi tải xong, gọi hàm tạo giao diện lọc
                     setupCategoryFilter();
-
-                    // Tải bài viết lần đầu (sẽ hiển thị danh mục "Tất cả")
                     loadApprovedPosts(currentCategory, currentSearchQuery);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(UserActivity.this, "Lỗi tải danh mục: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    // Trường hợp lỗi, vẫn tạo một danh mục "Tất cả" mặc định để không lỗi
                     if (categoryList.isEmpty()) {
                         categoryList.add(new Category("all", "Tất cả"));
                         setupCategoryFilter();
@@ -158,15 +150,10 @@ public class UserActivity extends AppCompatActivity {
                 });
     }
 
-
-    // --- HÀM 1: LẤY BÀI VIẾT TỪ FIREBASE (ĐÃ CẬP NHẬT ĐỂ HỖ TRỢ LỌC VÀ TÌM KIẾM) ---
     private void loadApprovedPosts(String category, String query) {
-        Query firebaseQuery = FirebaseFirestore.getInstance().collection("posts")
-                .whereEqualTo("status", "approved");
+        Query firebaseQuery = FirebaseFirestore.getInstance().collection("posts").whereEqualTo("status", "approved");
 
-        // 1. Lọc theo Danh mục (nếu không phải "Tất cả")
         if (category != null && !category.equals("Tất cả")) {
-            // Trường 'category' trong Post.java phải khớp với tên trong Firebase
             firebaseQuery = firebaseQuery.whereEqualTo("category", category);
         }
 
@@ -177,108 +164,66 @@ public class UserActivity extends AppCompatActivity {
                         for (DocumentSnapshot doc : snapshots) {
                             Post post = doc.toObject(Post.class);
                             if (post != null) {
-                                // Xử lý lọc theo từ khóa tìm kiếm (trên client)
-                                boolean matchesSearch = true;
-                                if (!query.isEmpty()) {
-                                    String title = post.getTitle().toLowerCase();
-                                    String content = post.getContent().toLowerCase();
-                                    String searchLower = query.toLowerCase();
-
-                                    if (!title.contains(searchLower) && !content.contains(searchLower)) {
-                                        matchesSearch = false;
-                                    }
-                                }
-
+                                post.setPostId(doc.getId());
+                                boolean matchesSearch = query.isEmpty() || post.getTitle().toLowerCase().contains(query.toLowerCase()) || post.getContent().toLowerCase().contains(query.toLowerCase());
                                 if (matchesSearch) {
                                     postList.add(post);
                                 }
                             }
                         }
-                        postAdapter.notifyDataSetChanged();
-
                         if (postList.isEmpty() && !query.isEmpty()) {
-                            Toast.makeText(UserActivity.this, "Không tìm thấy bài viết nào cho \"" + query + "\"", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UserActivity.this, "Không tìm thấy bài viết nào cho '" + query + "'", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        postAdapter.notifyDataSetChanged();
                     }
+                    postAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(UserActivity.this, "Lỗi tải bài: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
-    // --- HÀM 3: THIẾT LẬP CHỨC NĂNG LỌC THEO DANH MỤC (CẬP NHẬT LẠI) ---
     private void setupCategoryFilter() {
-        // Xóa tất cả View cũ trong container
         categoryFilterContainer.removeAllViews();
-        selectedCategoryView = null; // Reset View đang được chọn
+        selectedCategoryView = null;
 
-        // Duyệt qua danh sách Category đã tải
-        for (int i = 0; i < categoryList.size(); i++) {
-            Category cat = categoryList.get(i);
-
-            // 1. Tạo mới TextView
+        for (Category cat : categoryList) {
             TextView categoryView = new TextView(this);
             categoryView.setText(cat.getName());
 
-            // 2. Thiết lập Layout Params
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            int marginEnd = (int) (8 * getResources().getDisplayMetrics().density);
-            params.setMarginEnd(marginEnd);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMarginEnd((int) (8 * getResources().getDisplayMetrics().density));
             categoryView.setLayoutParams(params);
 
-            // 3. Thiết lập Style (Padding)
             int paddingH = (int) (12 * getResources().getDisplayMetrics().density);
             int paddingV = (int) (6 * getResources().getDisplayMetrics().density);
             categoryView.setPadding(paddingH, paddingV, paddingH, paddingV);
 
-            // 4. Thiết lập trạng thái ban đầu
-            if (cat.getName().equals(currentCategory)) { // ĐANG CHỌN
+            if (cat.getName().equals(currentCategory)) {
                 categoryView.setBackgroundResource(R.drawable.bg_category_selected);
                 categoryView.setTextColor(ContextCompat.getColor(this, R.color.white));
                 selectedCategoryView = categoryView;
-            } else { // CHƯA ĐƯỢC CHỌN (SỬ DỤNG DRAWABLE MỚI VÀ MÀU CHỮ TRẮNG)
+            } else {
                 categoryView.setBackgroundResource(R.drawable.bg_category_unselected);
-                categoryView.setTextColor(ContextCompat.getColor(this, R.color.text_white)); // Dùng màu trắng/text_white trên nền xám
+                categoryView.setTextColor(ContextCompat.getColor(this, R.color.text_white));
             }
 
-            // 5. Gắn sự kiện click
             categoryView.setOnClickListener(v -> {
-                // Xử lý đổi màu View cũ (RESET VỀ TRẠNG THÁI CHƯA CHỌN: BG XÁM, TEXT TRẮNG)
                 if (selectedCategoryView != null) {
                     selectedCategoryView.setBackgroundResource(R.drawable.bg_category_unselected);
-                    selectedCategoryView.setTextColor(ContextCompat.getColor(this, R.color.text_white)); // Đặt lại thành màu trắng
+                    selectedCategoryView.setTextColor(ContextCompat.getColor(this, R.color.text_white));
                 }
-
-                // Xử lý đổi màu View mới (TRẠNG THÁI ĐANG CHỌN: BG XANH, TEXT TRẮNG)
                 categoryView.setBackgroundResource(R.drawable.bg_category_selected);
                 categoryView.setTextColor(ContextCompat.getColor(this, R.color.white));
                 selectedCategoryView = categoryView;
-
-                // Lọc dữ liệu
                 currentCategory = cat.getName();
-                currentSearchQuery = "";
+                currentSearchQuery = ""; // Reset search query when category changes
                 loadApprovedPosts(currentCategory, currentSearchQuery);
             });
 
-            // 6. Thêm View vào container
             categoryFilterContainer.addView(categoryView);
         }
     }
 
-    // --- HÀM 4: THIẾT LẬP CHỨC NĂNG TÌM KIẾM (SỬ DỤNG ALERT DIALOG) ---
-    private void setupSearch() {
-        iconSearch.setOnClickListener(v -> {
-            // Khởi tạo Intent để chuyển sang SearchActivity
-            Intent intent = new Intent(UserActivity.this, SearchActivity.class);
-            startActivity(intent);
-        });
-    }
-    // --- HÀM 2: GỌI API THỜI TIẾT (GIỮ NGUYÊN) ---
     private void getWeatherData() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)

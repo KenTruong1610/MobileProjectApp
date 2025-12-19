@@ -11,4 +11,6 @@
     <color name="dark_bg_lighter">#1E1E1E</color>
     <color name="gray_bg">#B0B3B8</color>
     <color name="text_gray">#B0B3B8</color>
+    <!-- Other defined colors -->
+    <color name="red_error">#FF0000</color>
 </resources>

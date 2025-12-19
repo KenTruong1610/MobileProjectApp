@@ -1,9 +1,12 @@
 package com.example.projectmobile.model;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class Post implements Serializable {
+    // Giữ lại các trường cũ
     private String id;
     private String title;
     private String content;
@@ -11,13 +14,18 @@ public class Post implements Serializable {
     private String category;
     private String userId;
     private String userEmail;
-    private String status; // <-- ĐÃ BỔ SUNG BIẾN QUAN TRỌNG NÀY
+    private String status;
     private Date timestamp;
 
-    // 1. Constructor rỗng (Bắt buộc cho Firebase)
+    // Thêm trường postId. @Exclude để không lưu trường này 2 lần vào Firestore
+    // vì nó sẽ được dùng làm ID của document.
+    @Exclude
+    private String postId;
+
+    // Constructor rỗng (Bắt buộc cho Firebase)
     public Post() { }
 
-    // 2. Constructor đầy đủ
+    // Constructor đầy đủ (Không cần thay đổi)
     public Post(String id, String title, String content, String imageUrl, String category, String userId, String userEmail, String status, Date timestamp) {
         this.id = id;
         this.title = title;
@@ -30,7 +38,16 @@ public class Post implements Serializable {
         this.timestamp = timestamp;
     }
 
-    // 3. Getter & Setter (Đã thêm getStatus/setStatus)
+    // --- GETTER & SETTER MỚI CHO POSTID ---
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
+    }
+
+    // --- CÁC GETTER & SETTER CŨ ---
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 

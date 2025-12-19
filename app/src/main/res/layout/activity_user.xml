@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
+    <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +21,6 @@
             app:cardUseCompatPadding="false"
             app:cardBackgroundColor="@android:color/transparent">
 
-            <!-- NỀN GRADIENT ĐẶT Ở ĐÂY -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -29,7 +29,6 @@
                 android:orientation="horizontal"
                 android:padding="20dp">
 
-                <!-- Thông tin địa điểm -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -54,7 +53,6 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-                <!-- Nhiệt độ -->
                 <TextView
                     android:id="@+id/tvTemp"
                     android:layout_width="wrap_content"
@@ -65,7 +63,6 @@
                     android:textSize="32sp"
                     android:textStyle="bold" />
 
-                <!-- Icon -->
                 <FrameLayout
                     android:layout_width="56dp"
                     android:layout_height="56dp"
@@ -77,14 +74,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@android:drawable/ic_menu_compass"
-                        android:tint="@android:color/white" />
+                        app:tint="@android:color/white" />
                 </FrameLayout>
-
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
-
-
 
         <LinearLayout
             android:id="@+id/header_bar"
@@ -94,26 +87,17 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="16dp">
 
-
             <ImageView
-                android:layout_width="169dp"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:contentDescription="NEWZY Logo"
                 android:scaleType="fitStart"
                 android:src="@drawable/logotext" />
 
-            <ImageView
-                android:id="@+id/iconSearch"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@android:drawable/ic_search_category_default"
-                android:tint="@color/blue_primary"
-                android:clickable="true"
-                android:focusable="true"
-                android:contentDescription="Tìm kiếm"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -131,14 +115,8 @@
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
-            <Button
-                android:id="@+id/btnLogoutUser"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="Đăng xuất"
-                android:textSize="12sp"
-                android:backgroundTint="#D32F2F"/>
         </LinearLayout>
+
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,31 +128,59 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-            </LinearLayout>
+                android:gravity="center_vertical" />
         </HorizontalScrollView>
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerUserPosts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:paddingBottom="64dp"
+            android:clipToPadding="false"/>
 
     </LinearLayout>
 
+    <!-- Bottom App Bar -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:backgroundTint="#F0F0F0"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp"
+        app:fabAlignmentMode="center"
+        app:fabAnimationMode="slide"
+        app:fabCradleMargin="12dp"
+        app:fabCradleRoundedCornerRadius="36dp"
+        app:fabCradleVerticalOffset="10dp">
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+
+            app:itemIconTint="@menu/bottom_nav_color"
+            app:itemTextColor="@menu/bottom_nav_color"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu"/>
+
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="Tạo bài viết mới"
         android:src="@android:drawable/ic_input_add"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="24dp"
-        android:backgroundTint="@color/blue_primary"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="Tạo bài viết mới"/>
+        app:backgroundTint="@color/blue_primary"
+        app:tint="@android:color/white"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton"
+        app:layout_anchor="@id/bottomAppBar"
+        app:layout_anchorGravity="center"/>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

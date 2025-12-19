@@ -33,6 +33,9 @@
         <activity android:name=".CreatePostActivity" />
         <activity android:name=".PostDetailActivity" />
         <activity android:name=".SearchActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".HistoryActivity" />
 
 
     </application>

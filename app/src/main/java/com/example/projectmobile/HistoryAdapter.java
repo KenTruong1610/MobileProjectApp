@@ -2,7 +2,6 @@ package com.example.projectmobile;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.projectmobile.model.Post;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHolder> {
+// Adapter này gần giống hệt UserPostAdapter nhưng không có logic lưu lại lịch sử
+// để tránh vòng lặp vô hạn khi người dùng nhấn vào một bài trong trang lịch sử.
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
-    private static final String TAG = "UserPostAdapter";
     List<Post> list;
     Context context;
 
-    public UserPostAdapter(List<Post> list, Context context) {
+    public HistoryAdapter(List<Post> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -51,43 +45,11 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
         }
 
         holder.itemView.setOnClickListener(v -> {
-            // LƯU LỊCH SỬ VÀO FIRESTORE
-            saveToHistory(post.getPostId());
-
-            // Chuyển sang màn hình chi tiết bài viết
+            // Chỉ chuyển màn hình, không lưu lại lịch sử
             Intent intent = new Intent(context, PostDetailActivity.class);
             intent.putExtra("post", post);
             context.startActivity(intent);
         });
-    }
-
-    private void saveToHistory(String postId) {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null || postId == null) {
-            // Không có người dùng hoặc không có postId, không làm gì cả
-            return;
-        }
-        String userId = currentUser.getUid();
-
-        // Tạo một đối tượng Map để lưu lịch sử
-        Map<String, Object> historyData = new HashMap<>();
-        historyData.put("postId", postId);
-        historyData.put("readAt", FieldValue.serverTimestamp()); // Lưu thời gian đọc
-
-        // Lưu vào sub-collection 'history' của người dùng
-        // Dùng postId làm document ID để tự động ghi đè, chỉ cập nhật timestamp
-        FirebaseFirestore.getInstance()
-                .collection("users")
-                .document(userId)
-                .collection("history")
-                .document(postId)
-                .set(historyData)
-                .addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "Đã lưu lịch sử cho bài viết: " + postId);
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Lỗi khi lưu lịch sử", e);
-                });
     }
 
     @Override
