@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="text_white">#FFFFFFFF</color>
+    <!-- Palette Chính cho Light Theme -->
+    <color name="colorPrimary">#1976D2</color> <!-- Màu xanh dương đậm -->
+    <color name="colorOnPrimary">#FFFFFF</color> <!-- Chữ/icon trên nền màu Primary -->
 
+    <color name="colorBackground">#FFFFFF</color> <!-- Nền chính của các trang (trắng) -->
+    <color name="colorOnBackground">#000000</color> <!-- Chữ/icon trên nền Background -->
+
+    <color name="colorSurface">#F5F5F5</color> <!-- Nền cho các thành phần nổi (Card, Appbar) -->
+    <color name="colorOnSurface">#000000</color> <!-- Chữ/icon trên nền Surface -->
+
+    <color name="colorError">#D32F2F</color> <!-- Màu đỏ cho hành động nguy hiểm -->
+    <color name="colorOnError">#FFFFFF</color> <!-- Chữ/icon trên nền Error -->
+
+    <!-- =============================================================== -->
+    <!-- Các màu cũ được thêm lại để sửa lỗi build, sẽ được dọn dẹp sau -->
     <color name="dark_bg">#121418</color>
     <color name="dark_card">#1E2228</color>
     <color name="dark_input">#15171B</color>
-    <color name="blue_primary">#1976D2</color>
-    <color name="dark_bg_lighter">#1E1E1E</color>
     <color name="gray_bg">#B0B3B8</color>
+    <!-- =============================================================== -->
+
+    <!-- Các màu tiện ích khác -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="text_white">#FFFFFF</color>
     <color name="text_gray">#B0B3B8</color>
-    <!-- Other defined colors -->
-    <color name="red_error">#FF0000</color>
+    <color name="blue_primary">#1976D2</color>
+    <color name="red_error">#D32F2F</color>
 </resources>

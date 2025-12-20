@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Palette Chính cho Dark Theme -->
+    <color name="colorPrimary">#64B5F6</color> <!-- Xanh dương nhạt hơn cho dễ nhìn trên nền tối -->
+    <color name="colorOnPrimary">#000000</color> <!-- Chữ/icon trên nền màu Primary (đen) -->
+
+    <color name="colorBackground">#323032</color> <!-- Nền chính, theo yêu cầu mới -->
+    <color name="colorOnBackground">#FFFFFF</color> <!-- Chữ/icon trên nền Background (trắng) -->
+
+    <color name="colorSurface">#413F41</color> <!-- Nền cho các thành phần nổi, sáng hơn Background một chút -->
+    <color name="colorOnSurface">#FFFFFF</color> <!-- Chữ/icon trên nền Surface (trắng) -->
+
+    <color name="colorError">#EF5350</color> <!-- Màu đỏ sáng hơn cho dễ thấy -->
+    <color name="colorOnError">#000000</color> <!-- Chữ/icon trên nền Error -->
+
+</resources>

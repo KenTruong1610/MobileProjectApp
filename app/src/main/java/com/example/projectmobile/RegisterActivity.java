@@ -1,6 +1,5 @@
 package com.example.projectmobile;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,7 +20,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etEmail, etPassword;
+    EditText etEmail, etPassword, etConfirmPassword;
     Button btnRegister;
     TextView tvLoginLink;
 
@@ -33,8 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        etEmail = findViewById(R.id.etRegEmail);
-        etPassword = findViewById(R.id.etRegPassword);
+        etEmail = findViewById(R.id.etRegisterEmail);
+        etPassword = findViewById(R.id.etRegisterPassword);
+        etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
         tvLoginLink = findViewById(R.id.tvGoToLogin);
 
@@ -49,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
+            String confirmPassword = etConfirmPassword.getText().toString().trim();
 
             if (TextUtils.isEmpty(email)) {
                 etEmail.setError("Cần nhập Email");
@@ -56,6 +57,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
             if (password.length() < 6) {
                 etPassword.setError("Mật khẩu phải >= 6 ký tự");
+                return;
+            }
+            if (!password.equals(confirmPassword)) {
+                etConfirmPassword.setError("Mật khẩu không khớp");
                 return;
             }
 
@@ -71,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 df.set(userInfo).addOnSuccessListener(aVoid -> {
                     Toast.makeText(RegisterActivity.this, "Tạo tài khoản thành công!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), UserActivity.class));
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class)); // Chuyển đến Login để người dùng đăng nhập
                     finish();
                 }).addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "Lỗi lưu DB: " + e.getMessage(), Toast.LENGTH_SHORT).show());
 

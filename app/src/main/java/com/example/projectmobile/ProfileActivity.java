@@ -1,14 +1,17 @@
 package com.example.projectmobile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,10 +28,13 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageView ivProfile;
     private TextView tvName, tvEmail, tvDateOfBirth, tvGender, tvPhone, tvAddress;
     private Button btnEditProfile, btnLogout;
+    private ImageButton btnChangeTheme;
 
     // Khai báo Firebase
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,9 @@ public class ProfileActivity extends AppCompatActivity {
         // Khởi tạo Firebase Auth và Firestore
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        // Khởi tạo SharedPreferences để lưu lựa chọn theme
+        sharedPreferences = getSharedPreferences("theme_prefs", MODE_PRIVATE);
 
         // Ánh xạ View từ layout
         ivProfile = findViewById(R.id.ivProfile);
@@ -49,6 +58,10 @@ public class ProfileActivity extends AppCompatActivity {
         tvAddress = findViewById(R.id.tvAddress);
         btnEditProfile = findViewById(R.id.button);
         btnLogout = findViewById(R.id.btnLogoutUser);
+        btnChangeTheme = findViewById(R.id.btnChangeTheme);
+
+        // Thiết lập nút đổi theme
+        setupThemeButton();
 
         // Sự kiện cho nút chỉnh sửa
         btnEditProfile.setOnClickListener(v -> {
@@ -60,35 +73,48 @@ public class ProfileActivity extends AppCompatActivity {
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-            // Cờ để xóa hết các Activity cũ và tạo một Task mới
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         });
     }
 
+    private void setupThemeButton() {
+        btnChangeTheme.setOnClickListener(v -> {
+            // Lấy trạng thái hiện tại
+            boolean isDarkMode = sharedPreferences.getBoolean("is_dark_mode", false);
+
+            // Đảo ngược trạng thái và lưu lại
+            boolean newMode = !isDarkMode;
+            sharedPreferences.edit().putBoolean("is_dark_mode", newMode).apply();
+
+            // Áp dụng theme mới
+            if (newMode) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        // Tải dữ liệu người dùng mỗi khi Activity này được hiển thị để luôn cập nhật
         loadUserProfile();
     }
 
     private void loadUserProfile() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser == null) {
-            // Nếu không có người dùng đăng nhập, chuyển về trang Login
             Toast.makeText(this, "Bạn chưa đăng nhập!", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
         }
 
-        // Email có thể lấy trực tiếp từ FirebaseUser và nó phải luôn có
         String email = currentUser.getEmail();
         tvEmail.setText(email);
 
-        // Lấy thông tin chi tiết khác từ Firestore
         String uid = currentUser.getUid();
         DocumentReference userRef = db.collection("users").document(uid);
 
@@ -96,27 +122,24 @@ public class ProfileActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    // Cập nhật giao diện với dữ liệu từ Firestore
                     tvName.setText(document.getString("name") != null ? document.getString("name") : "Chưa cập nhật");
                     tvDateOfBirth.setText(document.getString("dob") != null ? document.getString("dob") : "Chưa cập nhật");
                     tvGender.setText(document.getString("gender") != null ? document.getString("gender") : "Chưa cập nhật");
                     tvPhone.setText(document.getString("phone") != null ? document.getString("phone") : "Chưa cập nhật");
                     tvAddress.setText(document.getString("address") != null ? document.getString("address") : "Chưa cập nhật");
 
-                    // Tải ảnh đại diện bằng Glide
                     String avatarUrl = document.getString("avatarUrl");
                     if (avatarUrl != null && !avatarUrl.isEmpty()) {
                         Glide.with(this)
                                 .load(avatarUrl)
-                                .placeholder(R.drawable.ic_default_avatar) // Ảnh mặc định trong lúc tải
-                                .error(R.drawable.ic_default_avatar) // Ảnh mặc định nếu lỗi
+                                .placeholder(R.drawable.ic_default_avatar)
+                                .error(R.drawable.ic_default_avatar)
                                 .circleCrop()
                                 .into(ivProfile);
                     } else {
                         Glide.with(this).load(R.drawable.ic_default_avatar).circleCrop().into(ivProfile);
                     }
                 } else {
-                    // Trường hợp người dùng mới, chưa có document trong Firestore
                     tvName.setText("Chưa cập nhật");
                     Glide.with(this).load(R.drawable.ic_default_avatar).circleCrop().into(ivProfile);
                 }

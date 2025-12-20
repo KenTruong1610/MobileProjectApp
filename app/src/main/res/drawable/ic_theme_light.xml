@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+  <!-- Sun core -->
+  <path
+      android:fillColor="@android:color/white"
+      android:pathData="M12,8a4,4 0 1,0 0,8a4,4 0 1,0 0,-8z"/>
+
+  <!-- Top -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M11,1h2v3h-2z"/>
+
+  <!-- Bottom -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M11,20h2v3h-2z"/>
+
+  <!-- Left -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M1,11h3v2h-3z"/>
+
+  <!-- Right -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M20,11h3v2h-3z"/>
+
+  <!-- Top-left -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M4.5,4.5l1.5,-1.5l2,2l-1.5,1.5z"/>
+
+  <!-- Top-right (FIXED) -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M17.5,4.5l2,-2l1.5,1.5l-2,2z"/>
+
+  <!-- Bottom-left -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M4.5,17.5l2,-2l1.5,1.5l-2,2z"/>
+
+  <!-- Bottom-right (FIXED) -->
+  <path android:fillColor="@android:color/white"
+      android:pathData="M17.5,17.5l1.5,-1.5l2,2l-1.5,1.5z"/>
+
+</vector>

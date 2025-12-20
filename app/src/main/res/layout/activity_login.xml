@@ -7,12 +7,14 @@
     android:background="@drawable/bg"
     android:fillViewport="true">
 
+    <!-- Áp dụng một lớp phủ theme Sáng để các thành phần bên trong luôn hiển thị đúng trên nền sáng -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="30dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:theme="@style/ThemeOverlay.Material3.Light">
 
         <ImageView
             android:id="@+id/imgLogo"
@@ -28,7 +30,7 @@
             android:text="Chào mừng trở lại"
             android:textSize="26sp"
             android:textStyle="bold"
-            android:textColor="#333333"
+            android:textColor="?attr/colorOnSurface"
             android:layout_marginBottom="5dp"/>
 
         <TextView
@@ -36,7 +38,8 @@
             android:layout_height="wrap_content"
             android:text="Đăng nhập để tiếp tục"
             android:textSize="14sp"
-            android:textColor="#757575"
+            android:textColor="?attr/colorOnSurface"
+            android:alpha="0.6"
             android:layout_marginBottom="30dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -75,7 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="ĐĂNG NHẬP"
-            android:backgroundTint="@color/blue_primary"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="10dp"
@@ -107,15 +111,11 @@
 
         <Button
             android:id="@+id/btnGoogleLogin"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:text="Tiếp tục với Google"
-            android:backgroundTint="#FFFFFF"
-            android:textColor="@color/blue_primary"
-            android:elevation="3dp"
-            app:strokeColor="@color/blue_primary"
-            app:strokeWidth="1dp"
-            app:cornerRadius="10dp"
+            android:textColor="?attr/colorPrimary"
             app:icon="@drawable/common_google_signin_btn_icon_dark_normal"
             app:iconTint="@null"
             app:iconGravity="textStart"
@@ -130,7 +130,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chưa có tài khoản? "
-                android:textColor="#666666"/>
+                android:textColor="?attr/colorOnSurface"
+                android:alpha="0.8" />
 
             <TextView
                 android:id="@+id/tvGoToRegister"
@@ -138,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="Đăng ký ngay"
                 android:textStyle="bold"
-                android:textColor="@color/blue_primary"/>
+                android:textColor="?attr/colorPrimary"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="?attr/colorBackground">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -11,6 +12,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
         android:layout_marginTop="40dp">
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Tin tức mới nhất"
-                android:textColor="@color/blue_primary"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -134,7 +136,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="#FFFFFF"
+        android:backgroundTint="?attr/colorSurface"
         app:fabCradleMargin="10dp"
         app:fabCradleRoundedCornerRadius="20dp"
         app:fabCradleVerticalOffset="10dp"
@@ -145,8 +147,8 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:paddingBottom="5dp"
-            app:itemIconTint="#2196F3"
-            app:itemTextColor="#2196F3"
+            app:itemIconTint="?attr/colorPrimary"
+            app:itemTextColor="?attr/colorPrimary"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_nav_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -157,10 +159,10 @@
         android:layout_height="wrap_content"
         android:contentDescription="Tạo bài viết"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="#2196F3"
-        app:tint="@android:color/white"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="?attr/colorOnPrimary"
         app:layout_anchor="@id/bottomAppBar"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton"
         app:layout_anchorGravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
