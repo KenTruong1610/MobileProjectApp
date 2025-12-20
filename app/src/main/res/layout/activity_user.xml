@@ -4,22 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-
-    <!-- Main Content -->
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:paddingHorizontal="16dp"
+        android:layout_marginTop="40dp">
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            app:cardUseCompatPadding="false"
-            app:cardBackgroundColor="@android:color/transparent">
+            app:cardUseCompatPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,7 +38,7 @@
                         android:id="@+id/tvCityName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thành phố Hồ Chí Minh"
+                        android:text="TP. Hồ Chí Minh"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -83,27 +82,16 @@
             android:id="@+id/header_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:contentDescription="NEWZY Logo"
-                android:scaleType="fitStart"
-                android:src="@drawable/logotext" />
-
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvUserMsg"
@@ -113,74 +101,66 @@
                 android:text="Tin tức mới nhất"
                 android:textColor="@color/blue_primary"
                 android:textSize="20sp"
-                android:textStyle="bold"/>
-
+                android:textStyle="bold" />
         </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:id="@+id/category_filter_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
         </HorizontalScrollView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerUserPosts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="64dp"
-            android:clipToPadding="false"/>
-
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp" />
     </LinearLayout>
 
-    <!-- Bottom App Bar -->
-    <com.google.android.material.bottomappbar.BottomAppBar
-        style="@style/Widget.MaterialComponents.BottomAppBar"
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom"
-        android:backgroundTint="#F0F0F0"
-        app:contentInsetStart="0dp"
-        app:contentInsetEnd="0dp"
-        app:fabAlignmentMode="center"
-        app:fabAnimationMode="slide"
-        app:fabCradleMargin="12dp"
-        app:fabCradleRoundedCornerRadius="36dp"
-        app:fabCradleVerticalOffset="10dp">
 
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="#FFFFFF"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="20dp"
+        app:fabCradleVerticalOffset="10dp"
+        app:hideOnScroll="false">
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-
-            app:itemIconTint="@menu/bottom_nav_color"
-            app:itemTextColor="@menu/bottom_nav_color"
+            android:paddingBottom="5dp"
+            app:itemIconTint="#2196F3"
+            app:itemTextColor="#2196F3"
             app:labelVisibilityMode="labeled"
-            app:menu="@menu/bottom_nav_menu"/>
-
-
+            app:menu="@menu/bottom_nav_menu" />
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="Tạo bài viết mới"
+        android:contentDescription="Tạo bài viết"
         android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/blue_primary"
+        app:backgroundTint="#2196F3"
         app:tint="@android:color/white"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MaterialComponents.FloatingActionButton"
         app:layout_anchor="@id/bottomAppBar"
         app:layout_anchorGravity="center"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
